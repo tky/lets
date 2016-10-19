@@ -6,11 +6,15 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type ProductRepo struct {
+type ProductRepoImpl struct {
 	DB *gorm.DB `inject:""`
 }
 
-func (r *ProductRepo) FindAll() []models.Product {
+type ProductRepo interface {
+	FindAll() []models.Product
+}
+
+func (r *ProductRepoImpl) FindAll() []models.Product {
 
 	var products []models.Product
 	r.DB.Limit(10).Find(&products)

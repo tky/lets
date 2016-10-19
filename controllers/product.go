@@ -8,7 +8,7 @@ import (
 )
 
 type ProductController struct {
-	ProductRepo *repo.ProductRepo `inject:""`
+	ProductRepo repo.ProductRepo `inject:""`
 }
 
 func (ctrl *ProductController) Index(c echo.Context) error {

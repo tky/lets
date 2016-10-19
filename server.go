@@ -5,6 +5,7 @@ import (
 	"lets/controllers"
 	"lets/db"
 	"lets/models"
+	"lets/repo"
 	"os"
 
 	"github.com/facebookgo/inject"
@@ -23,9 +24,11 @@ func main() {
 	var g inject.Graph
 
 	var productCtrl controllers.ProductController
+	var productRepo repo.ProductRepoImpl
 
 	err := g.Provide(
 		&inject.Object{Value: &productCtrl},
+		&inject.Object{Value: &productRepo},
 		&inject.Object{Value: DB},
 	)
 	if err != nil {
