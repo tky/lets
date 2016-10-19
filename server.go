@@ -8,14 +8,26 @@ import (
 	"lets/repo"
 	"os"
 
+	"github.com/echo-contrib/pongor"
 	"github.com/facebookgo/inject"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/engine/standard"
 )
 
+func setTemplates(e *echo.Echo) {
+
+	r := pongor.GetRenderer(pongor.PongorOption{
+		Directory: "views/",
+		Reload:    true, // if you want to reload template every request, set Reload to true.
+	})
+
+	e.SetRenderer(r)
+}
+
 func main() {
 	e := echo.New()
+	setTemplates(e)
 	DB := db.InitDB()
 	defer DB.Close()
 
@@ -42,6 +54,7 @@ func main() {
 	}
 
 	e.GET("/", productCtrl.Index)
+	e.GET("/product.html", productCtrl.IndexHtml)
 
 	e.Run(standard.New(":1323"))
 }

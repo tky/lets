@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <title>Products</title>
+  </head>
+  <body>
+    <p>Products</p>
+    <ul>
+      {% for p in products %}
+      <li>{{p.Code}} : {{p.Price}}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
