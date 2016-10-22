@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"lets/controllers"
 	"lets/db"
+	"lets/interceptor"
 	"lets/models"
 	"lets/repo"
 	"os"
@@ -53,6 +54,7 @@ func main() {
 		os.Exit(1)
 	}
 
+	e.Use(interceptor.Logger)
 	e.GET("/", productCtrl.Index)
 	e.GET("/product.html", productCtrl.IndexHtml)
 
