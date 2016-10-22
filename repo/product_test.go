@@ -48,8 +48,23 @@ func TestFind(t *testing.T) {
 
 	id := repo.FindAll()[0].Id
 
-	product := repo.Find(id)
+	product, err := repo.Find(id)
+	assert.Nil(t, err)
 	assert.Equal(t, product.Id, id)
 	assert.Equal(t, product.Code, "1234")
 	assert.Equal(t, product.Price, 1000)
+}
+
+func TestFindIfNotFound(t *testing.T) {
+	var repo repo.ProductRepoImpl
+	db := MakeTestDB()
+	db.Create(&models.Product{Code: "1234", Price: 1000})
+	defer db.Close()
+
+	inject.Populate(&repo, db)
+
+	_, err := repo.Find(99999)
+
+	assert.NotNil(t, err)
+	assert.Equal(t, "not found [id=99999]", err.Error())
 }

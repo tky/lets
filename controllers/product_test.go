@@ -28,7 +28,7 @@ func (r *MockProductRepo) FindAll() []models.Product {
 	}
 }
 
-func (r *MockProductRepo) Find(id int) models.Product {
+func (r *MockProductRepo) Find(id int) (*models.Product, error) {
 	panic("")
 }
 
