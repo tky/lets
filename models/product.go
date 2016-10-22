@@ -1,9 +1,7 @@
 package models
 
-import "github.com/jinzhu/gorm"
-
 type Product struct {
-	gorm.Model
+	Id    int
 	Code  string
-	Price uint
+	Price int
 }

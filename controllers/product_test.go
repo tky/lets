@@ -28,6 +28,10 @@ func (r *MockProductRepo) FindAll() []models.Product {
 	}
 }
 
+func (r *MockProductRepo) Find(id int) models.Product {
+	panic("")
+}
+
 func TestIndex(t *testing.T) {
 	var productRepo MockProductRepo
 

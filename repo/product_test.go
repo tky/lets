@@ -37,3 +37,19 @@ func TestFindAll(t *testing.T) {
 	products := repo.FindAll()
 	assert.Equal(t, 1, len(products))
 }
+
+func TestFind(t *testing.T) {
+	var repo repo.ProductRepoImpl
+	db := MakeTestDB()
+	db.Create(&models.Product{Code: "1234", Price: 1000})
+	defer db.Close()
+
+	inject.Populate(&repo, db)
+
+	id := repo.FindAll()[0].Id
+
+	product := repo.Find(id)
+	assert.Equal(t, product.Id, id)
+	assert.Equal(t, product.Code, "1234")
+	assert.Equal(t, product.Price, 1000)
+}
