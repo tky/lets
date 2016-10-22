@@ -6,8 +6,10 @@ import (
 	"lets/models"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/echo-contrib/pongor"
 	"github.com/facebookgo/inject"
 	"github.com/labstack/echo"
@@ -71,5 +73,7 @@ func TestIndexHtml(t *testing.T) {
 
 	if assert.NoError(t, ctrl.IndexHtml(c)) {
 		assert.Equal(t, http.StatusOK, rec.Code)
+		doc, _ := goquery.NewDocumentFromReader(strings.NewReader(rec.Body.String()))
+		assert.Equal(t, doc.Find("#list").Find("li").Text(), "ABC : 10")
 	}
 }
