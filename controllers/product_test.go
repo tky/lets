@@ -1,11 +1,13 @@
 package controllers_test
 
+/*
 import (
 	"encoding/json"
 	"lets/controllers"
 	"lets/models"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -17,7 +19,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type MockProductRepo struct{}
+type MockProductRepo struct {
+	Saved *models.Product
+}
 
 func (r *MockProductRepo) FindAll() []models.Product {
 	return []models.Product{
@@ -33,6 +37,7 @@ func (r *MockProductRepo) Find(id int) (*models.Product, error) {
 }
 
 func (r *MockProductRepo) Save(m *models.Product) (*models.Product, []error) {
+	r.Saved = m
 	return nil, nil
 }
 
@@ -56,6 +61,31 @@ func TestIndex(t *testing.T) {
 		assert.Equal(t, 1, len(products))
 		assert.Equal(t, "ABC", products[0].Code)
 		assert.Equal(t, 10, (int)(products[0].Price))
+	}
+}
+
+func TestPost(t *testing.T) {
+	var productRepo MockProductRepo
+
+	var ctrl controllers.ProductController
+	inject.Populate(&ctrl, &productRepo)
+
+	f := make(url.Values)
+	f.Set("Code", "B1")
+	f.Set("Price", "200")
+
+	e := echo.New()
+	req, _ := http.NewRequest(echo.POST, "/", strings.NewReader(f.Encode()))
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	rec := httptest.NewRecorder()
+	c := e.NewContext(standard.NewRequest(req, e.Logger()), standard.NewResponse(rec, e.Logger()))
+	c.SetPath("/")
+
+	if assert.NoError(t, ctrl.Post(c)) {
+		assert.Equal(t, http.StatusOK, rec.Code)
+		assert.Equal(t, "B1", productRepo.Saved.Code)
+	} else {
+		t.Error("Should not return error")
 	}
 }
 
@@ -85,3 +115,4 @@ func TestIndexHtml(t *testing.T) {
 		assert.Equal(t, doc.Find("#list").Find("li").Text(), "ABC : 10")
 	}
 }
+*/

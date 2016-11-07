@@ -56,6 +56,7 @@ func main() {
 
 	e.Use(interceptor.Logger)
 	e.GET("/", productCtrl.Index)
+	e.POST("/", productCtrl.Post)
 	e.GET("/product.html", productCtrl.IndexHtml)
 
 	e.Run(standard.New(":1323"))
