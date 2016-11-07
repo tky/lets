@@ -22,6 +22,7 @@ type ProductRepoImpl struct {
 type ProductRepo interface {
 	FindAll() []models.Product
 	Find(id int) (*models.Product, error)
+	Save(*models.Product) (*models.Product, []error)
 }
 
 func (r *ProductRepoImpl) FindAll() []models.Product {
@@ -37,4 +38,8 @@ func (r *ProductRepoImpl) Find(id int) (*models.Product, error) {
 	} else {
 		return &product, nil
 	}
+}
+
+func (r *ProductRepoImpl) Save(m *models.Product) (*models.Product, []error) {
+	return m, r.DB.Save(m).GetErrors()
 }

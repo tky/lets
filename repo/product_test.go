@@ -1,4 +1,4 @@
-package repo
+package repo_test
 
 import (
 	"lets/models"
@@ -67,4 +67,26 @@ func TestFindIfNotFound(t *testing.T) {
 
 	assert.NotNil(t, err)
 	assert.Equal(t, "not found [id=99999]", err.Error())
+}
+
+func TestSaveAndFind(t *testing.T) {
+	var repo repo.ProductRepoImpl
+	db := MakeTestDB()
+	defer db.Close()
+
+	inject.Populate(&repo, db)
+
+	if product, err := repo.Save(&models.Product{
+		Code:  "A01",
+		Price: 100,
+	}); err != nil {
+		t.Error("Should not return error")
+	} else {
+		assert.NotNil(t, product.Id, "Should set Id")
+
+		found, _ := repo.Find(product.Id)
+		assert.Equal(t, "A01", found.Code)
+		assert.Equal(t, 100, found.Price)
+	}
+
 }

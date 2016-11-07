@@ -1,4 +1,4 @@
-package controllers
+package controllers_test
 
 import (
 	"encoding/json"
@@ -30,6 +30,10 @@ func (r *MockProductRepo) FindAll() []models.Product {
 
 func (r *MockProductRepo) Find(id int) (*models.Product, error) {
 	panic("")
+}
+
+func (r *MockProductRepo) Save(m *models.Product) (*models.Product, []error) {
+	return nil, nil
 }
 
 func TestIndex(t *testing.T) {
